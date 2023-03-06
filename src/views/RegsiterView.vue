@@ -34,6 +34,7 @@ export default {
     // this.regsiter()
   },
   methods: {
+    //注册请求
     regsiter() {
       this.axios.post('/api/register', this.userinfo).then(res => {
         if (res.data.message == '注册成功请登录') {
@@ -45,7 +46,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 #components-form-demo-normal-login .login-form {
   max-width: 300px;
 }

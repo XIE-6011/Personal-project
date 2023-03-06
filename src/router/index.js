@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import LoginView from '../views/Login.vue'
+import LoginView from '../views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
-import Regsiter from '../views/Regsiter.vue'
+import Regsiter from '../views/RegsiterView.vue'
+
 
 Vue.use(VueRouter)
 
@@ -14,33 +15,42 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: LoginView
   },
   {
     path: '/home',
     name: 'home',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: HomeView
   },
   {
     path: '/regsiter',
     name: 'regsiter',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: Regsiter
   }
 ]
 
+
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+  mode: "history",
+  base: process.env.base,
   routes
 })
+//前置路由守卫
+var that=this
+router.beforeEach(function(to, from, next) {
+    // console.log(to.path)
+    if(to.path=='/login'||to.path=='/regsiter'){next()}else{
+      const token = localStorage.getItem('token')
+      if (token=='xiedongwei') {
+        next()
+      } else {
+        alert('请先登录')
+        console.log(that)
+        next('/login')
+      }
+    }
+    
+})
+
 
 export default router

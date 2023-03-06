@@ -13,14 +13,13 @@
         </a-input>
       </a-form-item>
       <div class="confim">
-        <a-button type="primary" html-type="submit" class="login-form-button" @click="login"> Log in </a-button>
-        <a-button type="primary" html-type="submit" class="login-form-button" @click="regsiter"> regsiter</a-button>
+        <a-button type="primary" html-type="submit" class="login-form-button" @click="login"> 登录 </a-button>
+        <a-button type="primary" html-type="submit" class="login-form-button" @click="regsiter"> 注册</a-button>
       </div>
     </a-form>
   </div>
 </template>
 <script>
-// @ is an alias to /src
 export default {
   data() {
     return {
@@ -35,6 +34,7 @@ export default {
     // this.regsiter()
   },
   methods: {
+    //登录请求
     login() {
       this.axios
         .post('/user/userInfo', this.userinfo)
@@ -51,25 +51,14 @@ export default {
           console.error(err)
         })
     },
+    //跳转到注册页面
     regsiter() {
       this.$router.push('/regsiter')
-      // var userinfo = {
-      //   name: '555',
-      //   password: '444'
-      // }
-      // this.axios
-      //   .post('/api/register', userinfo)
-      //   .then(res => {
-      //     console.log(res)
-      //   })
-      //   .catch(err => {
-      //     console.error(err)
-      //   })
     }
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 #components-form-demo-normal-login .login-form {
   max-width: 300px;
 }

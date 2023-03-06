@@ -1,12 +1,17 @@
+//引入mockjs
 import Mock from 'mockjs'
 var userdata = [{ name: '111', password: '111' }, { name: '222', password: '222' }, { name: '333', password: '333' }]
 //注册路由token验证
 Mock.mock('/user/userInfo', 'post', (req) => {
   var tokeninfo = ''
+  // 解析请求参数
   var userinfo = JSON.parse(req.body)
+  // 判断账户密码是否正确
   userdata.forEach(item => {
     if (item.name == userinfo.name && item.password == userinfo.password)
+    // 账户密码正确，生成token字符串，保存到本地localstorge
       tokeninfo = 'xiedongwei'
+      localStorage.setItem("token",tokeninfo)
   })
   return {
     code: 200,
@@ -18,7 +23,9 @@ Mock.mock('/user/userInfo', 'post', (req) => {
 //注册用户
 Mock.mock('/api/register', 'post', (req) => {
   var msg = ''
+  //解析请求参数
   var userinfo = JSON.parse(req.body)
+  // 判断账户是否存在，是抛出异常，否则注册添加用户
   try {
     userdata.forEach(item => {
       if (item.name == userinfo.name) {
@@ -37,7 +44,6 @@ Mock.mock('/api/register', 'post', (req) => {
     userdata.push(userinfo)
     msg = '注册成功请登录'
   }
-
   console.log(userdata)
   return {
     code: 200,
