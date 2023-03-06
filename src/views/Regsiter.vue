@@ -1,6 +1,6 @@
 <template>
   <div class="form">
-    <h1>登录</h1>
+    <h1>注册</h1>
     <a-form id="components-form-demo-normal-login" class="login-form">
       <a-form-item>
         <a-input placeholder="Username" v-model="userinfo.name">
@@ -13,7 +13,6 @@
         </a-input>
       </a-form-item>
       <div class="confim">
-        <a-button type="primary" html-type="submit" class="login-form-button" @click="login"> Log in </a-button>
         <a-button type="primary" html-type="submit" class="login-form-button" @click="regsiter"> regsiter</a-button>
       </div>
     </a-form>
@@ -35,36 +34,13 @@ export default {
     // this.regsiter()
   },
   methods: {
-    login() {
-      this.axios
-        .post('/user/userInfo', this.userinfo)
-        .then(res => {
-          console.log(res)
-          if (res.data.token == 'xiedongwei') {
-            this.$message.info('登录成功')
-            this.$router.push('/home')
-          } else {
-            this.$message.info('账号密码不正确，请重试')
-          }
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    },
     regsiter() {
-      this.$router.push('/regsiter')
-      // var userinfo = {
-      //   name: '555',
-      //   password: '444'
-      // }
-      // this.axios
-      //   .post('/api/register', userinfo)
-      //   .then(res => {
-      //     console.log(res)
-      //   })
-      //   .catch(err => {
-      //     console.error(err)
-      //   })
+      this.axios.post('/api/register', this.userinfo).then(res => {
+        if (res.data.message == '注册成功请登录') {
+          this.$message.info('注册成功请登录')
+          this.$router.push('/')
+        } else this.$message.info('账号已存在，请重新注册')
+      })
     }
   }
 }
@@ -77,7 +53,7 @@ export default {
   float: right;
 }
 #components-form-demo-normal-login .login-form-button {
-  width: 30%;
+  width: 100%;
 }
 .form {
   height: 350px;
