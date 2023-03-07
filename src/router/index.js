@@ -36,7 +36,6 @@ const router = new VueRouter({
   routes
 })
 //前置路由守卫
-var that=this
 router.beforeEach(function(to, from, next) {
     // console.log(to.path)
     if(to.path=='/login'||to.path=='/regsiter'){next()}else{
@@ -45,7 +44,6 @@ router.beforeEach(function(to, from, next) {
         next()
       } else {
         alert('请先登录')
-        console.log(that)
         next('/login')
       }
     }
