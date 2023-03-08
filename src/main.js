@@ -8,6 +8,7 @@ import axios from 'axios'
 import Languages from 'languages-js'
 import VueAxios from 'vue-axios'
 import './mock/index.js'
+// axios.defaults.baseURL = 'https://api.cupfox.app';
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios)
 Vue.use(Antd,Languages)
