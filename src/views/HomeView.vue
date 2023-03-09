@@ -11,7 +11,7 @@
             <a-menu-item key="zongyi"> <icon-font type="icon-zongyi" />综艺 </a-menu-item>
             <a-menu-item key="qita"> <icon-font type="icon-qita" />其他 </a-menu-item>
           </a-menu>
-          <a-input-search placeholder="搜索" enter-button />
+          <a-input-search placeholder="搜索" enter-button/>
         </div>
         <div class="exit" @click="delet"><a-icon type="user" style="font-size: 24px; margin-right: 10px" />退出</div>
       </div>
@@ -47,12 +47,14 @@
           <a-menu-item key="Japan" @click="getdata1('tv_日剧', 'a5b2d9467d4ca3440c29b3244a1d49e842ae06dd')"> 日剧 </a-menu-item>
         </a-menu>
         <div class="content">
+          <a-spin tip="Loading..." :spinning="spinning" style="width: 100%;text-align: center;"></a-spin>
           <a-card hoverable style="width: 240px" v-for="(item, index) in dianshidata" :key="index">
             <img slot="cover" alt="example" :src="item.cover" />
             <a-card-meta :title="item.title">
               <template slot="description"> 评分：{{ item.rating }} </template>
             </a-card-meta>
           </a-card>
+          <a-pagination show-quick-jumper :default-current="2" :total="500"  @change="onChange"></a-pagination>
         </div>
       </div>
       <div class="recommend">
@@ -69,7 +71,7 @@
           <a-menu-item key="9" @click="getdata1('movie_科幻', '8b01c0a25451ec9d07c3c219da9a6a3d6e95543b')"> 科幻 </a-menu-item>
           <a-menu-item key="10" @click="getdata1('movie_悬疑', '662acde65dcc87a5b76bdca175d3b53b17d17f49')"> 悬疑 </a-menu-item>
           <a-menu-item key="11" @click="getdata1('movie_恐怖', 'a74a41d66a9fd170e542ea114e5ec6748600aeae')">恐怖 </a-menu-item>
-          <a-menu-item key="12" @click="getdata1('movie_豆瓣评分', '4fd2a99e6053062ae482cdf9b08b4608250b8278')"> 豆瓣评分 </a-menu-item>
+          <a-menu-item key="12" @click="getdata1('movie_豆瓣高分', '4fd2a99e6053062ae482cdf9b08b4608250b8278')"> 豆瓣评分 </a-menu-item>
         </a-menu>
         <div class="content">
           <a-card hoverable style="width: 240px" v-for="(item, index) in mvdata" :key="index">
@@ -83,7 +85,7 @@
       <div class="recommend">
         <h2>热播动漫</h2>
         <a-menu mode="horizontal">
-          <a-menu-item key="mail" @click="getdata1('热门', 'f753bfc8d376864dd69b1eeae9a53429866424fa')"> <icon-font type="icon-dianshi" />热门</a-menu-item>
+          <a-menu-item key="mail" @click="getdata1('热门', 'f753bfc8d376864dd69b1eeae9a53429866424fa')"> <icon-font type="icon-dongman" />热门</a-menu-item>
         </a-menu>
         <div class="content">
           <a-card hoverable style="width: 240px" v-for="(item, index) in comic" :key="index">
@@ -106,7 +108,8 @@ const IconFont = Icon.createFromIconfontCN({
 export default {
   data() {
     return {
-      userinfo: '你好',
+      spinning:false,
+      page:'0',
       ds: 'tv_热门',
       mv: 'movie_热门',
       token: 'f753bfc8d376864dd69b1eeae9a53429866424fa',
@@ -121,7 +124,7 @@ export default {
     IconFont
   },
   watch: {
-    ds() {
+    ds()  {
       this.getdsdata()
     },
     mv() {
@@ -139,7 +142,10 @@ export default {
       this.$router.push('/login')
     },
     getdsdata() {
-      this.axios.get(`https://api.cupfox.app/api/v2/recommend/?subject=${this.ds}&page_start=0&page_limit=24&token=${this.token}`).then(res => {
+      this.spinning=true
+      this.axios.get(`https://api.cupfox.app/api/v2/recommend/?subject=${this.ds}&page_start=${this.page}&page_limit=24&token=${this.token}`).then(res => {
+        if(res.status==200) 
+        this.spinning=false
         console.log(res)
         this.dianshidata = res.data.subjects
       })
@@ -164,6 +170,12 @@ export default {
       } else {
         ;(this.mv = value), (this.token1 = token)
       }
+    },
+    onChange(e){
+      this.page=e
+      document.documentElement.scrollTop = 400;
+      this.getdsdata()
+
     }
   }
 }
@@ -177,10 +189,14 @@ export default {
 
     // background: aqua;
     .nav {
+      position: fixed;
+      top: 0;
+      z-index: 1000;
       display: flex;
       width: 100%;
       height: 50px;
       justify-content: space-between;
+      background-color: #FFF;
       .nav1 {
         width: 70%;
         display: flex;
@@ -208,9 +224,10 @@ export default {
       }
     }
     .carousel {
+      padding-top:50px ;
       margin: auto;
-      height: 360px;
-      width: 40%;
+      height: 420px;
+      width: 700px;
       .img-box {
         position: relative;
         .moviename {
