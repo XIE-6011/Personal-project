@@ -9,9 +9,9 @@
             <a-menu-item key="dianyin"> <icon-font type="icon-dianying" />电影 </a-menu-item>
             <a-menu-item key="dongman"> <icon-font type="icon-dongman" />动漫 </a-menu-item>
             <a-menu-item key="zongyi"> <icon-font type="icon-zongyi" />综艺 </a-menu-item>
-            <a-menu-item key="qita"> <icon-font type="icon-qita" />其他 </a-menu-item>
+            <a-menu-item key="qita" @click="changeclassify"> <icon-font type="icon-qita" />筛选 </a-menu-item>
           </a-menu>
-          <a-input-search placeholder="搜索" enter-button/>
+          <a-input-search placeholder="搜索" enter-button />
         </div>
         <div class="exit" @click="delet"><a-icon type="user" style="font-size: 24px; margin-right: 10px" />退出</div>
       </div>
@@ -47,14 +47,14 @@
           <a-menu-item key="Japan" @click="getdata1('tv_日剧', 'a5b2d9467d4ca3440c29b3244a1d49e842ae06dd')"> 日剧 </a-menu-item>
         </a-menu>
         <div class="content">
-          <a-spin tip="Loading..." :spinning="spinning" style="width: 100%;text-align: center;"></a-spin>
+          <a-spin tip="Loading..." :spinning="spinning" style="width: 100%; text-align: center"></a-spin>
           <a-card hoverable style="width: 240px" v-for="(item, index) in dianshidata" :key="index">
             <img slot="cover" alt="example" :src="item.cover" />
             <a-card-meta :title="item.title">
               <template slot="description"> 评分：{{ item.rating }} </template>
             </a-card-meta>
           </a-card>
-          <a-pagination show-quick-jumper :default-current="2" :total="500"  @change="onChange"></a-pagination>
+          <a-pagination show-quick-jumper :default-current="2" :total="500" @change="onChange"></a-pagination>
         </div>
       </div>
       <div class="recommend">
@@ -108,8 +108,8 @@ const IconFont = Icon.createFromIconfontCN({
 export default {
   data() {
     return {
-      spinning:false,
-      page:'0',
+      spinning: false,
+      page: '0',
       ds: 'tv_热门',
       mv: 'movie_热门',
       token: 'f753bfc8d376864dd69b1eeae9a53429866424fa',
@@ -124,7 +124,7 @@ export default {
     IconFont
   },
   watch: {
-    ds()  {
+    ds() {
       this.getdsdata()
     },
     mv() {
@@ -142,10 +142,9 @@ export default {
       this.$router.push('/login')
     },
     getdsdata() {
-      this.spinning=true
+      this.spinning = true
       this.axios.get(`https://api.cupfox.app/api/v2/recommend/?subject=${this.ds}&page_start=${this.page}&page_limit=24&token=${this.token}`).then(res => {
-        if(res.status==200) 
-        this.spinning=false
+        if (res.status == 200) this.spinning = false
         console.log(res)
         this.dianshidata = res.data.subjects
       })
@@ -171,11 +170,13 @@ export default {
         ;(this.mv = value), (this.token1 = token)
       }
     },
-    onChange(e){
-      this.page=e
-      document.documentElement.scrollTop = 400;
+    onChange(e) {
+      this.page = e
+      document.documentElement.scrollTop = 400
       this.getdsdata()
-
+    },
+    changeclassify() {
+      this.$router.push('/classify')
     }
   }
 }
@@ -196,7 +197,7 @@ export default {
       width: 100%;
       height: 50px;
       justify-content: space-between;
-      background-color: #FFF;
+      background-color: #fff;
       .nav1 {
         width: 70%;
         display: flex;
@@ -224,7 +225,7 @@ export default {
       }
     }
     .carousel {
-      padding-top:50px ;
+      padding-top: 50px;
       margin: auto;
       height: 420px;
       width: 700px;
