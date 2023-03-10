@@ -1,6 +1,6 @@
 <template>
-  <div class="classify">
-    <div class="main">
+  <div class="classify" >
+    <div class="main" >
       <div class="nav">
         <div class="nav1">
           <a-menu mode="horizontal">
@@ -61,7 +61,7 @@
         </div>
       </div>
 
-      <div class="recommend">
+      <div class="recommend" >
         <a-spin tip="Loading..." :spinning="spinning" style="width: 100%; text-align: center"></a-spin>
         <div class="content">
           <a-card hoverable style="width: 150px" v-for="(item, index) in classifydata" :key="index">
@@ -70,6 +70,7 @@
               <template slot="description"> 评分：{{ item.rating }} </template>
             </a-card-meta>
           </a-card>
+          <button @click="scrollFn">加载更多</button>
         </div>
       </div>
     </div>
@@ -92,12 +93,13 @@ export default {
       areavalue: '',
       yearvalue: '',
       sortvalue: '',
+      pagesize:'0',
       tag: ['电影', '电视剧', '动漫', '综艺'],
       leixin: ['喜剧', '爱情', '动作', '科幻', '奇幻', '动画', '悬疑', '犯罪', '恐怖', '战争', '音乐', '歌舞', '历史', '传记', '灾难', '纪录片', '短片'],
       area: ['华语', '欧美', '韩国', '日本', '中国大陆', '美国', '中国香港', '中国台湾', '英国', '法国', '意大利', '西班牙', '印度', '泰国', '俄罗斯'],
       year: ['2023', '2022', '2021', '2020', '2010年代', '2000年代', '90年代', '80年代', '70年代', '60年代', '更早'],
       sort: ['高分优先', '近期热度'],
-      classifydata: {}
+      classifydata: []
     }
   },
   name: 'ClassifyView',
@@ -105,16 +107,16 @@ export default {
     IconFont
   },
   mounted() {
-    console.log(data1)
     this.getdsdata()
   },
   methods: {
     getdsdata() {
       this.spinning = true
-      this.axios.get(`https://api.cupfox.app/api/v2/filter/?tags=${this.tagvalue}&genres=${this.leixinvalue}&countries=${this.areavalue}&year_range=${this.yearvalue}&sort=T&start=0&limit=24&token=${this.token}`).then(res => {
+      this.axios.get(`https://api.cupfox.app/api/v2/filter/?tags=${this.tagvalue}&genres=${this.leixinvalue}&countries=${this.areavalue}&year_range=${this.yearvalue}&sort=T&start=${this.pagesize}&limit=24&token=${this.token}`).then(res => {
         this.spinning = false
         console.log(res)
-        this.classifydata = res.data.subjects
+        // this.classifydata=res.data.subjects
+        this.classifydata=this.classifydata.concat(res.data.subjects)
       })
     },
     delet() {
@@ -139,19 +141,32 @@ export default {
           this.getdsdata()
           break
       }
-    }
-  }
+    },
+   scrollFn(){
+         this.pagesize=String(parseInt(this.pagesize)+24)
+          this.getdsdata()
+
+}
+}
 }
 </script>
 <style lang="scss" scoped>
 .main {
-  margin: auto 100px;
+  // position: fixed;
+  overflow: auto;
+  width: 90%;
+  height: 100%;
+  // margin: 0 100px 0 100px;
+  margin-left: 100px;
+  margin-right: 100px;
+  // height: 100vh;
+  // overflow:scroll
   .nav {
     position: fixed;
     top: 0;
     z-index: 1000;
     display: flex;
-    width: 100%;
+    width: 90%;
     height: 50px;
     justify-content: space-between;
     background-color: #fff;
@@ -159,20 +174,22 @@ export default {
       width: 70%;
       display: flex;
       justify-content: space-between;
-    }
-    ::v-deep .a-menu {
-      width: 70%;
-    }
+    //   ::v-deep .a-menu {
+    //   width: 70%;
+    // }
     ::v-deep .ant-input-search {
-      width: 30%;
+      width: 20%;
       padding-top: 6px;
     }
+    }
+    
     .exit {
+      // display: inline-block;
       width: 10%;
       height: 50px;
       line-height: 50px;
       font-size: 18px;
-      margin-right: 5;
+      // margin-left: 5px;
     }
     ::v-deep .ant-menu-item {
       font-size: 18px;
