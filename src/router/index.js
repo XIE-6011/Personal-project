@@ -4,6 +4,7 @@ import LoginView from '../views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
 import Regsiter from '../views/RegsiterView.vue'
 import ClassifyView from '../views/ClassifyView.vue'
+import ResultView from '../views/ResultView.vue'
 
 
 Vue.use(VueRouter)
@@ -17,6 +18,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/result',
+    name: 'result',
+    component: ResultView
   },
   {
     path: '/home',

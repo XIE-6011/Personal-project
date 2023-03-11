@@ -48,7 +48,7 @@
         </a-menu>
         <div class="content">
           <a-spin tip="Loading..." :spinning="spinning" style="width: 100%; text-align: center"></a-spin>
-          <a-card hoverable style="width: 240px" v-for="(item, index) in dianshidata" :key="index">
+          <a-card hoverable style="width: 240px" v-for="(item, index) in dianshidata" :key="index" @click="changeresult">
             <img slot="cover" alt="example" :src="item.cover" />
             <a-card-meta :title="item.title">
               <template slot="description"> 评分：{{ item.rating }} </template>
@@ -74,7 +74,7 @@
           <a-menu-item key="12" @click="getdata1('movie_豆瓣高分', '4fd2a99e6053062ae482cdf9b08b4608250b8278')"> 豆瓣评分 </a-menu-item>
         </a-menu>
         <div class="content">
-          <a-card hoverable style="width: 240px" v-for="(item, index) in mvdata" :key="index">
+          <a-card hoverable style="width: 240px" v-for="(item, index) in mvdata" :key="index" @click="changeresult">
             <img slot="cover" alt="example" :src="item.cover" />
             <a-card-meta :title="item.title">
               <template slot="description"> 评分：{{ item.rating }} </template>
@@ -88,7 +88,7 @@
           <a-menu-item key="mail" @click="getdata1('热门', 'f753bfc8d376864dd69b1eeae9a53429866424fa')"> <icon-font type="icon-dongman" />热门</a-menu-item>
         </a-menu>
         <div class="content">
-          <a-card hoverable style="width: 240px" v-for="(item, index) in comic" :key="index">
+          <a-card hoverable style="width: 240px" v-for="(item, index) in comic" :key="index" @click="changeresult">
             <img slot="cover" alt="example" :src="item.cover" />
             <a-card-meta :title="item.title">
               <template slot="description"> 评分：{{ item.rating }} </template>
@@ -174,6 +174,9 @@ export default {
       this.page = e
       document.documentElement.scrollTop = 400
       this.getdsdata()
+    },
+    changeresult() {
+      this.$router.push('/result')
     },
     changeclassify() {
       this.$router.push('/classify')

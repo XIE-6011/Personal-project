@@ -1,6 +1,6 @@
 <template>
-  <div class="classify" >
-    <div class="main" >
+  <div class="classify">
+    <div class="main">
       <div class="nav">
         <div class="nav1">
           <a-menu mode="horizontal">
@@ -61,10 +61,10 @@
         </div>
       </div>
 
-      <div class="recommend" >
+      <div class="recommend">
         <a-spin tip="Loading..." :spinning="spinning" style="width: 100%; text-align: center"></a-spin>
         <div class="content">
-          <a-card hoverable style="width: 150px" v-for="(item, index) in classifydata" :key="index">
+          <a-card hoverable style="width: 240px" v-for="(item, index) in classifydata" :key="index" @click="changeresult">
             <img slot="cover" alt="example" :src="item.cover" />
             <a-card-meta :title="item.title">
               <template slot="description"> 评分：{{ item.rating }} </template>
@@ -77,7 +77,6 @@
   </div>
 </template>
 <script>
-import data1 from '../assets/test.json'
 import { Icon } from 'ant-design-vue'
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/c/font_3939507_04s9sty2edsb.js'
@@ -93,7 +92,7 @@ export default {
       areavalue: '',
       yearvalue: '',
       sortvalue: '',
-      pagesize:'0',
+      pagesize: '0',
       tag: ['电影', '电视剧', '动漫', '综艺'],
       leixin: ['喜剧', '爱情', '动作', '科幻', '奇幻', '动画', '悬疑', '犯罪', '恐怖', '战争', '音乐', '歌舞', '历史', '传记', '灾难', '纪录片', '短片'],
       area: ['华语', '欧美', '韩国', '日本', '中国大陆', '美国', '中国香港', '中国台湾', '英国', '法国', '意大利', '西班牙', '印度', '泰国', '俄罗斯'],
@@ -116,7 +115,7 @@ export default {
         this.spinning = false
         console.log(res)
         // this.classifydata=res.data.subjects
-        this.classifydata=this.classifydata.concat(res.data.subjects)
+        this.classifydata = this.classifydata.concat(res.data.subjects)
       })
     },
     delet() {
@@ -125,6 +124,9 @@ export default {
     },
     changeclassify() {
       this.$router.push('/classify')
+    },
+    changeresult() {
+      this.$router.push('/result')
     },
     changehome() {
       this.$router.push('/home')
@@ -142,12 +144,11 @@ export default {
           break
       }
     },
-   scrollFn(){
-         this.pagesize=String(parseInt(this.pagesize)+24)
-          this.getdsdata()
-
-}
-}
+    scrollFn() {
+      this.pagesize = String(parseInt(this.pagesize) + 24)
+      this.getdsdata()
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -174,15 +175,15 @@ export default {
       width: 70%;
       display: flex;
       justify-content: space-between;
-    //   ::v-deep .a-menu {
-    //   width: 70%;
-    // }
-    ::v-deep .ant-input-search {
-      width: 20%;
-      padding-top: 6px;
+      //   ::v-deep .a-menu {
+      //   width: 70%;
+      // }
+      ::v-deep .ant-input-search {
+        width: 20%;
+        padding-top: 6px;
+      }
     }
-    }
-    
+
     .exit {
       // display: inline-block;
       width: 10%;
