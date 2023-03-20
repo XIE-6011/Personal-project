@@ -5,6 +5,11 @@ import HomeView from '../views/HomeView.vue'
 import Regsiter from '../views/RegsiterView.vue'
 import ClassifyView from '../views/ClassifyView.vue'
 import ResultView from '../views/ResultView.vue'
+import AboutView from '../views/AboutView.vue'
+import Test1 from '../views/test//Test1.vue'
+import Test2 from '../views/test//Test2.vue'
+import Test3 from '../views/test//Test3.vue'
+
 
 
 Vue.use(VueRouter)
@@ -38,13 +43,36 @@ const routes = [
     path: '/classify',
     name: 'classify',
     component: ClassifyView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: AboutView,
+    children: [
+      {
+        name: 'test1',
+        path: '/test1',
+        component: Test1
+      },
+      {
+        name: 'test2',
+        path: '/test2',
+        component: Test2
+
+      }, {
+        name: 'test3',
+        path: '/test3/:id/:title',
+        props: true,
+        component: Test3
+      }
+    ]
   }
 ]
 
 
 const router = new VueRouter({
   mode: "history",
-  base: process.env.base,
+  base: '/vue',
   routes
 })
 //前置路由守卫

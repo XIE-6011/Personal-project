@@ -197,7 +197,7 @@ export default {
       top: 0;
       z-index: 1000;
       display: flex;
-      width: 100%;
+      width: 90%;
       height: 50px;
       justify-content: space-between;
       background-color: #fff;
